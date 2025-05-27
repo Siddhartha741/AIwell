@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Analyzer - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="page-dashboard">
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-heartbeat"></i> 
+            <span class="website-name">AIWell</span>
+        </div>
+        <a href="/dashboard" class="sidebar-item active">
+            <i class="fas fa-th-large"></i> Dashboard
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-user"></i> Account
+        </a>
+        <a href="#" class="sidebar-item" onclick="togglePredictorsModal()">
+            <i class="fas fa-stethoscope"></i> Predictors
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-calendar-alt"></i> Calendar
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-inbox"></i> Inbox
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-history"></i> History
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-question-circle"></i> Help
+        </a>
+    </div>
+
+    <div class="content">
+        <div class="topbar">
+            <h1>Dashboard</h1>
+            <div class="topbar-actions">
+                <div class="view-toggle">
+                    <i class="fas fa-ellipsis-v" onclick="toggleDropdown()"></i>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="setView('card')">Card View</a>
+                        <a href="#" onclick="setView('list')">List View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-container card-view"> 
+            <a href="/predict" class="grid-item diabetes">
+                <h2>Diabetes Predictor</h2>
+                <p>Analyze diabetes risk</p>
+                <div class="item-actions">
+                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-folder"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </a>
+            <div class="grid-item hypertension">
+                <h2>Hypertension Predictor</h2>
+                <p>Analyze hypertension risk</p>
+                <div class="item-actions">
+                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-folder"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="grid-item heart">
+                <h2>Heart Disease Predictor</h2>
+                <p>Analyze heart disease risk</p>
+                <div class="item-actions">
+                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-folder"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class.grid-item other1">
+                <h2>Other Predictor 1</h2>
+                <p>Analyze other risk</p>
+                <div class="item-actions">
+                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-folder"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="grid-item other2">
+                <h2>Other Predictor 2</h2>
+                <p>Analyze other risk</p>
+                <div class="item-actions">
+                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-folder"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="grid-item other3">
+                <h2>Other Predictor 3</h2>
+                <p>Analyze other risk</p>
+                <div class="item-actions">
+                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-folder"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="predictorsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Predictors</h2>
+                <span class="close" onclick="closePredictorsModal()">&times;</span>
+            </div>
+            <ul>
+                <li><a href="/predict">Diabetes Predictor</a></li>
+                <li><a href="#">Hypertension Predictor</a></li>
+                <li><a href="#">Heart Disease Predictor</a></li>
+                <li><a href="#">Other Predictor 1</a></li>
+                <li><a href="#">Other Predictor 2</a></li>
+                <li><a href="#">Other Predictor 3</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            document.querySelector('.dropdown-content').classList.toggle('show');
+        }
+
+        function setView(view) {
+            const gridContainer = document.querySelector('.grid-container');
+            if (view === 'card') {
+                gridContainer.classList.remove('list-view');
+                gridContainer.classList.add('card-view');
+            } else if (view === 'list') {
+                gridContainer.classList.remove('card-view');
+                gridContainer.classList.add('list-view');
+            }
+            document.querySelector('.dropdown-content').classList.remove('show');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.fa-ellipsis-v')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+
+            if (event.target.classList.contains('page-dashboard')) {
+                closePredictorsModal();
+            }
+        }
+
+        function togglePredictorsModal() {
+            document.getElementById('predictorsModal').style.display = "block";
+        }
+
+        function closePredictorsModal() {
+            document.getElementById('predictorsModal').style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

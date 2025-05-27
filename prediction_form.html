@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diabetes Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='predict_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Patient Details</h1>
+        <form id="predictionForm" method="POST" action="/predict">
+            <div class="form-group">
+                <label for="pregnancies">Pregnancies (Number of times pregnant):</label>
+                <input type="number" id="pregnancies" name="pregnancies" required>
+            </div>
+            <div class="form-group">
+                <label for="glucose">Glucose (Blood glucose level mg/dl):</label>
+                <input type="number" id="glucose" name="glucose" required>
+            </div>
+            <div class="form-group">
+                <label for="bloodpressure">BloodPressure (Diastolic blood pressure mm Hg):</label>
+                <input type="number" id="bloodpressure" name="bloodpressure" required>
+            </div>
+            <div class="form-group">
+                <label for="skinthickness">SkinThickness (Skin fold thickness mm):</label>
+                <input type="number" id="skinthickness" name="skinthickness" required>
+            </div>
+            <div class="form-group">
+                <label for="insulin">Insulin (Insulin level IU/ml):</label>
+                <input type="number" id="insulin" name="insulin" required>
+            </div>
+            <div class="form-group">
+                <label for="bmi">BMI (Body Mass Index):</label>
+                <input type="number" id="bmi" name="bmi" required>
+            </div>
+            <div class="form-group">
+                <label for="diabetespedigreefunction">DiabetesPedigreeFunction (Family history impact):</label>
+                <input type="number" id="diabetespedigreefunction" name="diabetespedigreefunction" step="0.001" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age (Age in years):</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+
+    <div id="predictionModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePredictionModal()">&times;</span>
+            <h2>Prediction Result</h2>
+            <p id="predictionResult"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('predictionResult').textContent = data.prediction;
+                document.getElementById('predictionModal').style.display = "block";
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        function closePredictionModal() {
+            document.getElementById('predictionModal').style.display = "none";
+        }
+
+        // Initially hide the modal
+        document.getElementById('predictionModal').style.display = "none";
+    </script>
+</body>
+</html>
